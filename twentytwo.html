@@ -1,0 +1,112 @@
+<html> 
+  <head>
+    <style>
+        span{color:red}
+        #s5{border:2px solid blue; width:200px;}
+        
+      </style>
+      <script>
+          
+          function validateUserName(){
+            var id=parseInt(document.getElementById("uname").value);
+            var total=parseInt(document.getElementById("uname").value);
+            var custname = document.getElementById("custnames").value;
+            if(custname.length < 6){
+              document.getElementById("s1").innerHTML = ("username length not in range!")
+              document.getElementById("uname").focus()
+              return false
+            }
+            else{
+              document.getElementById("s1").innerHTML = ""
+              return true;
+            }
+        }
+          function validateBillDate(){
+              var bDate=new Date(document.getElementById("billingdate").value);
+              var shipDate=new Date(document.getElementById("shippingdate").value);
+              if(bDate>shipDate) {
+                  document.getElementById("s2").innerHTML = ("billing date cannot be greater than shipping date!")
+                  document.getElementById("uname").focus()
+                  return false
+                }
+              else{
+                  document.getElementById("s2").innerHTML = ""
+                  return true;
+              }
+          }
+
+
+          function displayDetails(){
+              var res=""
+              var id=parseInt(document.getElementById("uname").value);
+              res+="orderid:"+id+"<br/>";
+              
+              var custname = document.getElementById("custnames").value;
+              res+="customerName:"+custname+"<br/>";
+              var bDate=document.getElementById("billingdate").value;
+              res+="billingdate:"+bDate+"<br/>";
+              var shipDate=document.getElementById("shippingdate").value;
+              res+="shippingDate:"+shipDate+"<br/>";
+              var total=parseInt(document.getElementById("uname").value);
+              res+="totalOrder:"+total+"<br/>";
+              var sel=document.getElementById("rate");
+
+              for(i=0;i<sel.length;i++)
+              var optn=sel.options[sel.selectedIndex].text
+              console.log(optn)
+              res+="Rating:" +optn+"<br>";
+
+
+              document.getElementById("s4").innerHTML=res;
+              
+
+
+
+
+
+              
+          }
+          function validate(){
+              if (validateUserName() && validateBillDate()){
+                displayDetails();
+                return false;
+
+              }
+            else{
+                return false;
+            }
+            
+        }
+
+
+       
+
+        
+      </Script>
+    </head>
+    <body>
+<div id="s5">
+        <form onsubmit="return validate()">
+            OrderId :<input type="text" id="uname" required ><br/>
+            custName:<input type="text" id="custnames" required> <span id="s1"></span><br/>
+            enterBilligDate:<input type="date" id="billingdate" required> <span id="s2"></span><br/>
+            enterShippingDate:<input type="date" id="shippingdate" required><br/>
+            orderTotal:<input type="text" id="total" required><br/>
+            Rating:<select id="rate">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+            </select><br/>
+            <br>
+            <input type="submit" value="display" >
+          
+          </form>
+          <div id="s4"></div>
+
+        </div>
+       
+          
+  </body>
+  </html>
