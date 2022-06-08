@@ -1,0 +1,788 @@
+SQL 
+----
+  - ANSI standard
+  - Case insensitive
+  - Eng like lang.
+  - 4th gen. lang.
+  - Non-procedural lang.
+
+SQL Sublanguages
+-----------------
+  - DQL/DRL --> SELECT
+  - DML --> INSERT, UPDATE, DELETE
+  - DDL --> CREATE, ALTER, DROP, TRUNCATE  --> DDLs to create logical structure(Schema) of a db.
+  - TCL --> COMMIT, ROLLBACK, SAVEPOINT
+  - DCL --> GRANT, REVOKE 
+
+Select Statement
+----------------
+SELECT [TOP <no.of rows] {* | <col.list> | <expr.list>} 
+  [FROM <tablename>]
+  [WHERE <cond.(s)>]  -- to filter the rows
+  [GROUP BY <expr.(s)>
+	[HAVING <cond.(s)>]] -- to filter the groups
+  [ORDER BY <expr.(s)>
+      [OFFSET <rownum> ROWS [FETCH NEXT <noofrows> ROWS ONLY]]];
+
+  SELECT       (5)
+    FROM       (1)
+    WHERE      (2)
+    GROUP BY   (3)
+    HAVING     (4)
+    ORDER BY   (6)
+
+
+Operators
+---------
+- Arithmetic Operators
+  +, - , *, /, %
+
+   (a + b) * c / (d - e)
+
+- Concatenation Operator
+  +
+
+   DIPALI IS MANAGER AND GETS 10000
+
+- DISTINCT Operator
+
+- Relational / Comparison Operators
+  =, !=, >, >= <, <= 
+
+- Logical Operators
+  AND, OR, NOT
+    2   3    1
+
+    where <cond1> OR <cond.2> AND NOT<cond.3>
+
+- SQL Relational / Comparison Operators
+   IN, BETWEEN, LIKE, IS NULL
+		_, %
+   
+	WHERE DEPTNO = 10, 20 ,30;
+	where deptno = 10 or deptno = 20 or deptno = 30;
+	WHERE DEPTNO IN(10, 20, 30);
+	where deptno in(10, 20, 30)
+
+   ANY, ALL, EXISTS
+
+Built-In Functions
+------------------
+- Single-Row Functions
+- Multiple-Row/ Group/ Aggregate Functions
+
+Single-Row Functions
+---------------------
+Character Functions
+-------------------
+- UPPER(<argC1>)
+- LOWER(<argC1>)
+- LEN(<argC1>)
+	-CHAR
+	-VARCHAR
+- SUBSTRING(<main str.>, <offset>, <no.of chrs. to be fetched>)
+      -- substring('dipali', 2, 3) = ipa
+      -- substring('dipali', 2, ) = ipali
+
+- CHARINDEX(<search str.>, <main str.>, <offset>)
+      -- charindex('i', 'dipali', 1) = 2
+      -- charindex('i', 'dipali', 3) = 6
+      -- charindex('p', 'dipali', 4) = 0
+
+
+- REPLICATE(<str.to be replicated>, <no of times>)
+- LEFT(<main str.>, <no of chrs to retrieve>)
+- RIGHT(<main str.>, <no of chrs to retrieve>)
+- LTRIM(<argC1>)
+- RTRIM(<argC1>)
+- REPLACE(<main str.>, <search str.>, <replace str.>)
+- SOUNDEX(<argC1>)
+
+Number Functions
+----------------
+- ABS(<argN1>) = abs(-123.45) = 123.45
+- SIGN(<argN1>) -- -1, 1, 0
+- ROUND(<no.>, <no of deci. places>) = round(123.56789, 2) = 123.57
+				     = round(123.56789, 0) = 124
+- CEILING(<argN1>) -- nearest integer which is greater than the given no. 
+		= ceiling(123.01) = 124
+- FLOOR(<argN1>) -- nearest integer which is smaller than the given no.
+		= floor(123.99) = 123
+- POWER(<no1>, <no2>) = power(10,4) = 10000
+- SQRT(<argN1>)
+
+Date Functions
+--------------
+- GETDATE();
+- GETUTCDATE();
+- DATEPART(<part val.>, <date>)
+- DATEADD(<interval>, <no>, <date>)
+- DATEDIFF(<interval>, <date1>, <date2>)
+- DATENAME(<part val.>, <date>)
+
+Conversion Functions
+--------------------
+- CAST(<value to be converted> AS <datatye>(<size>)) -- to convert from one datatype to another
+- CONVERT(<target datatype>(<size>), <val. to be converted> [, <style>]) -- to convert from one datatype to another
+
+C TO D
+D TO C
+C TO N
+N TO C
+
+N TO D
+D TO N
+
+Misc. Functions
+---------------
+- ISNULL(<arg1>,  <arg2>)  -- to convert null values to non-null values, both args should be of same data type
+     A = NULL
+     B = 10
+    ISNULL(A,B) = 10
+     A = 10
+     B = NULL
+    ISNULL(A,B) = 10
+- COALESCE(<arg1>,  <arg2> ....., <argN>)
+
+Case Expression  --> used to return the value conditionally
+---------------
+CASE WHEN <cond.1> THEN <return val.1>
+     WHEN <cond.2> THEN <return val.2>
+	...
+     WHEN <cond.N> THEN <return val.N>
+  [ELSE <default val.>]
+END
+
+Incentives
+----------
+MANAGER - 20%
+SALESMAN - 10%
+CLERK - 5%
+Others - 1%
+
+-- Name		Job	Salary		Incentives
+
+Group Functions --> (Arg to group fn should be either a col. or an expression...should never be a literal)
+---------------
+MIN(<arg1>)
+MAX(<arg1>)
+COUNT(<arg1>) -- to count the no of rows
+SUM(<argN1>)
+AVG(<argN1>)
+
+SUM(5000)
+SUM(SALARY)
+SUM(SALARY + COMM)
+
+
+Advanced Group Functions
+------------------------
+ROLLUP  --> n + 1 Results
+
+   group by rollup(a, b, c)
+
+   - a, b, c	___
+   - a, b	___
+   - a		___
+   - None	___
+
+CUBE   --> 2 ^ n Results
+
+   group by cube(a, b, c)
+
+   - a , b, c	____
+   - a , b	____
+   - a , c	____
+   - b , c	____
+   - a		____
+   - b		____
+   - c		____
+   - None	____
+
+GROUPING(<col. / expr.>)
+
+GROUPING SETS
+   group by grouping sets((a, b), (a, c))
+
+- Window Fns
+  ----------
+  OVER()
+
+  window_function ( [ ALL ] column ) 
+  OVER ( [ PARTITION BY partition_list ] [ ORDER BY order_list] )
+ 
+
+  MIN
+  MAX
+  COUNT
+  SUM
+  AVG
+  RANK
+  DENSE_RANK
+  FIRST_VALUE
+  LAST_VALUE
+
+
+Joins
+-----
+- Inner Join -- We get only matching rows
+- Outer Join
+    -- Left Outer
+    -- Right Outer
+    -- Full Outer
+- Equi Join
+- Non-Equi Join
+- Self Join
+- Cross Join / Cartesian Product
+
+
+- [INNER] JOIN ON (< join cond.(s)>)
+- LEFT OUTER JOIN  ON (< join cond.(s)>)
+- RIGHT OUTER JOIN  ON (< join cond.(s)>)
+- FULL OUTER JOIN  ON (< join cond.(s)>)
+
+from emp join dept on(deptno = deptno)
+
+Subqueries
+----------
+  - Single Row Subquery - S.R. Relational Operators --> =, !=, <, >, <=, >=, between, like
+  - Multiple Row Subquery - M.R. Relational Operators --> IN, ANY ALL
+
+  - Simple Subquery  - subquery executes 1st and only once and then outer query
+  - Corelated Subquery - outer query executes 1st and for each row of outer query, subquery
+			 executes
+
+
+
+Set Operators
+--------------
+UNION
+INTERSECT
+EXCEPT
+UNION ALL
+
+
+(Q1)
+<set operator>
+(Q2)
+
+Data Types
+----------
+CHAR -- fixed length
+VARCHAR -- variable length
+INT
+SMALLINT
+BIGINT
+FLOAT
+DOUBLE
+DECIMAL(P [,S])  -- sal decimal(8, 2) 999999.99
+DATE
+TIME
+DATETIME  hh:mi:ss
+SMALLDATETIME hh:mi:ss.nnn
+DATETIME2 hh:mi:ss.nnnnnn
+
+Domain Integrity Constraints
+----------------------------
+ - NOT NULL
+ - CHECK
+Entity Integrity Constraints
+----------------------------
+ - UNIQUE
+ - PRIMARY KEY
+Referential Integrity Constraints
+---------------------------------
+ - FOREIGN KEY
+
+DDL Statements
+--------------
+CREATE TABLE <tablename>(
+  <col.1> <datatype>(<size>) [[CONSTRAINT <constr.name>] <constr.type>] [DEFAULT <def.val.>],
+  <col.2> <datatype>(<size>) [[CONSTRAINT <constr.name>] <constr.type>] [DEFAULT <def.val.>],
+     .....
+  <col.N> <datatype>(<size>) [[CONSTRAINT <constr.name>] <constr.type>] [DEFAULT <def.val.>],
+  [[CONSTRAINT <constr.name>] <constr.type>(<col.list>)]);
+
+Creating a table based on other table
+--------------------------------------
+SELECT {* | <col.list> | <expr.list>} INTO <destinationtablename> FROM <sourcetable>
+   WHERE......
+
+Identity Column
+---------------
+   <col name> <datatype>(<size>) IDENTITY[(<seed>,<increment>)]
+
+
+DEPT1
+-----
+DEPTNO  PK
+DNAME   NN
+LOC     'DELHI', 'PUNE', 'MUMBAI'
+
+EMP1
+----
+EMPNO	PK
+ENAME	NN
+JOB	'CLERK'
+DOJ	
+SAL	> 0
+DNO	FK
+
+
+ALTER TABLE <tablename> {DROP CONSTRAINT <constr.name> |
+			 ADD [CONSTRAINT <constr.name>] <constr.type>(<col.list>)] |
+			 ALTER COLUMN <col.name>..... |
+			 DROP COLUMN <col.name>};
+
+DROP TABLE <tablename>;
+
+TRUNCATE TABLE <tablename>;
+
+Views
+------
+  - Simple View
+  - Complex view
+
+{CREATE |ALTER} VIEW <viewname> [WITH SCHEMABINDING][WITH ENCRYPTION] AS <select statement>;
+  [WITH CHECK OPTION]
+
+DROP VIEW <viewname>;
+
+
+DML statements
+--------------
+INSERT INTO <tablename> [(<col.list>)] VALUES (<val.list>);
+
+INSERT INTO <tablename> <subquery>;
+
+UPDATE <tablename> SET <col.name> = <new val.>, <col2.> = <new val.>......
+    [ WHERE <cond.(s)>];
+
+DELETE [FROM] <tablename> [WHERE <cond.(s)>];
+
+MERGE INTO <dest.table> AS <alias>
+  USING <source table> <alias>
+  ON(<merge cond.>)
+  WHEN MATCHED THEN
+    UPDATE SET <col1.> = <new val>, <col2.> = <newval>.....
+  WHEN NOT MATCHED THEN
+    INSERT VALUES(<val.list>);
+
+
+TCL statements
+--------------
+COMMIT;
+ROLLBACK [TRANSACTION <savepoint name>];
+SAVE [TRANSACTION <savepoint name>];
+
+BEGIN TRANSACTION
+	<operations>
+{COMMIT | ROLLBACK [TRANSACTION]}
+
+Begin Transaction
+   update emp......
+   insert dept.....
+   save transaction s1;
+   insert emp...
+   delete dept...
+   save transaction s2;
+   update dept...
+   update emp....
+rollback transaction s1;
+
+
+
+
+
+Common Table Expression (CTE)
+-----------------------------
+WITH Clause
+
+  - Non- Recursive Query
+
+	WITH <query name1> AS (<select statement>),
+     	     <query name2> AS (<select statement>),
+              ...
+             <query nameN> AS (<select statement>)
+	<main select statement>;
+
+  - Recursive Query
+
+  	WITH <query name> AS (<start point query>
+				UNION ALL
+			      <Recursive Query....where...>)
+        <main query>
+
+void f1()
+{
+  ...
+  ...
+
+  ...
+  if <cond>
+   f1();
+}
+
+
+
+Procedural concept
+------------------
+Programs
+  - Anonymous
+    
+    BEGIN
+       <executable statements> -- combination of SQL statements and procedural statements
+    END;
+ 
+  - Named
+	- subprograms
+	   - procedures
+	   - functions
+	- triggers
+
+
+int f1()
+{
+  ....
+}
+
+void f2()
+{
+  ...
+}
+
+
+
+
+Procedures
+----------
+{CREATE | ALTER} PROCEDURE <procedurname> [(<arg.list>)] AS
+BEGIN
+
+   <executable statements>  -- (combination of SQL and Procedural statements)
+END;
+
+Arguments
+----------
+<arg.name> <datatype>(<size>) [<mode>]
+
+Declaring variables
+-------------------
+DECLARE <varname1> <datatype>(<size>), <varname2> <datatype>(<size>), ......
+
+Assigning values to variables
+-----------------------------
+SET <var.name> = <value>;
+
+Printing values
+----------------
+PRINT(<messge>);
+
+SELECT statement
+-----------------
+SELECT <var.name> = <col.name>, <var.name> = <col.>...... FROM.....
+
+select VJOB = JOBID, VSAL = SALARY FROM EMPLOYEES....
+
+
+DROP PROCEDURE <proc.name>
+
+
+
+Functions
+----------
+  - Scalar Valued Functions
+  - Table Valued Functions
+	- Inline TVF
+	- Multiline TVF
+
+SELECT * FROM {<table> | <subquery> | <view> | <tablevalued fns>}
+
+{CREATE | ALTER} FUNCTION <fn.name> [(<arg.list>)] RETURNS {<datatype>(<size>) | TABLE} AS
+BEGIN
+
+   <executable statements>
+    RETURN <value>;
+END;
+
+int f1()
+char f2()
+void f3()
+
+DROP FUNCTION <fn.name>
+
+Arguments
+----------
+@<arg name> <data type>(<size>) [<parameter mode>]
+				  - IN, OUT
+				    ---
+
+Parameter Modes
+---------------
+CREATE PROCEDURE P1()
+BEGIN
+	DECLARE X SMALLINT;
+	SET X = 5;
+	...
+	...
+	...
+	P2(X);
+	...
+END;
+
+CREATE PROCEDURE P2(A INT OUT)
+BEGIN
+	DECLARE Y SMALLINT
+	SET Y = 10;
+	...
+	...
+	...
+	...
+	SET A = Y + 20;
+END;
+
+EXEC P2(5 + X)
+
+
+Declaring a variable
+--------------------
+DECLARE @<variablename> <datatype>(<size>)
+  declare @vname varchar(20), @vsal decimal(8,2);
+  declare @vsal decimal(8,2);
+
+Assigning the value
+==-----------------
+SET @<var.name> = <value>;
+
+SELECT @<variablename1> = <col.name1>, @<var.name2> = <col.2>......
+   FROM .....
+
+Printing the value
+------------------
+PRINT(<message>)
+
+WHILE loop
+----------
+	WHILE <cond.(s)>
+	BEGIN
+		...
+	END
+
+IF Statement
+------------
+IF <cond.(s)>
+BEGIN
+   ....
+END;
+ELSE
+BEGIN
+   ....
+END;
+
+
+Stages in executing SQL statements 
+- parse --> syntax check and sym check
+- bind
+- execute
+
+
+CURSORS
+=======
+  - FORWARD_ONLY Cursor
+  - SCROLL Cursor
+
+1.	Declaring a cursor
+	DECLARE <cur.name> [SCROLL] CURSOR FOR <select st.>;
+2.	Opening a cursor -- Memory allocation
+	OPEN <cur.name>;
+3. 	Fetching the rows from the cursor
+	FETCH NEXT FROM <cur.name> INTO <var.list>;
+
+	- Fetching can be done from ABSOLUTE position or RELATIVE position
+4.	Closing the cursor
+	CLOSE <cur.name>;
+5.	Dealloating the cursor
+	DEALLOCATE <cur.name>;
+
+@@FETCH_STATUS  -- returns 0 if last fetch was successful otherwise non zero val.
+
+Error/ Exception Handling
+--------------
+  Errors
+     - Compilation Error
+     - Runtime Error
+	- Predefined
+	- Userdefined
+
+BEGIN TRY  
+     { sql_statement | statement_block }  
+END TRY  
+BEGIN CATCH  
+     [ { sql_statement | statement_block } ]  
+END CATCH  
+[ ; ]  
+
+BEGIN
+  ..
+   ..
+   BEGIN TRY
+   	..
+   	..
+   END TRY
+   BEGIN CATCH
+	....
+   END CATCH
+   ..
+   ..
+   ..
+END;
+
+
+
+ERROR_NUMBER()
+ERROR_MESSAGE()
+ERROR_PROCDURE()
+ERROR_LINE()
+
+RAISERROR
+---------
+RAISERROR ( { Message ID | Message Text}
+    { ,severity ,state }
+
+@@ERROR -- Should be > 50000. Default is 50000. Should be stored in sys.messages
+
+THROW
+-----
+THROW [ { error_number | @local_variable },  
+        { message | @local_variable },  
+        { state | @local_variable } ]   
+[ ; ]  
+
+Severity Level - 0 - 25
+
+Transaction
+-----------
+
+- Selecting current db name
+  -------------------------
+  select db_name();
+
+- SELECT name, is_read_committed_snapshot_on   -- gives 0 if it is off otherwise 1
+  FROM sys.databases
+  --WHERE name = DB_NAME();
+
+- ALTER DATABASE <dbname> SET READ_COMMITTED_SNAPSHOT ON -- to set it on for a particular db
+
+
+
+
+ Indexes
+--------
+
+CREATE [UNIQUE] {CLUSTERED | NONCLUSTERED} INDEX <ind.name> ON <table>(<col.list>)
+		[INCLUDE (<col.list>)]
+
+CREATE CLUSTERED INDEX NEW_EMP_DEPT_ID_IDX ON NEW_EMP(DEPT_ID);
+
+Triggers
+--------
+  - DML Event Triggers --> INSERT, UPDATE, DELETE
+	- {FOR | AFTER}
+	- INSTEAD OF
+  - DDL Event Triggers --> CREATE, ALTER, DROP
+
+CREATE TRIGGER <trig.name> ON {<table> | <view>} {FOR | AFTER | INSTEAD OF} <event(s)> AS
+  <executable statements>
+
+Magic Tables
+------------
+ - INSERTED
+ - DELETED
+
+Dynamic Queries
+---------------
+   SELECT FNAME, JOBID, SALARY FROM EMPLOYEES WHERE DEPT_ID = 20;
+
+
+   References in Query Construction
+   --------------------------------
+	- Lexical Reference
+	- Bind Reference
+
+   CREATE PROCEDURE P1(@PTABLE VARCHAR(30) AS
+   BEGIN
+   	SELECT * FROM @PTABLE;
+   END;
+
+Query Optimization
+------------------
+   SELECT * FROM EMPLOYEES WHERE DEPT_ID = @val1 and salary > @val2
+
+  - Cost
+    -----
+      - CPU time
+      - Memory / Buffer
+      - I/O
+
+  - Stages in SQL Execution
+    ------------------------
+	- Parse   - Parser 	- Parse Tree
+	- Bind    - Algebrizer  
+	- Execute - Optimizer - Plan
+
+  - Indexes
+    -------
+	- Clustered Index
+	- Nonclustered Index
+
+    CREATE [UNIQUE]{CLUSTERED | NONCLUSTERED} INDEX <ind.name> ON<table>(<col.list>);
+
+     SELECT * FROM EMPLOYEES WHERE DEPT_ID = 20
+
+     dept_idx
+     --------
+     dept_id	rowlocator
+     ----------------------
+	10	       ---
+	10	       ---
+	....
+	20		--
+			--
+	30
+	..
+
+
+
+
+	120
+	...
+
+
+
+
+
+
+
+
+
+
+
+
+
+   SP_EXECUTESQL --> proc to execute dynamic queries
+
+Join Methods
+------------
+ - Nested Loop
+ - Sort Merge
+ - Hash 
+
+XML Data Types
+--------------
+  - FOR XML AUTO  -- the cols as attributes
+  - FOR XML PATH
+
+
+
+
+
